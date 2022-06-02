@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Artistes{% endblock %}
+
+{% block body %}
+    <h1>Artistes</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Image</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for artiste in artistes %}
+            <tr>
+                <td>{{ artiste.nom }}</td>
+                <td> <img class="image_artiste" src="{{asset('images/artistes/'~artiste.image)}}" width ="200" alt="image"></td>
+                <td>{{ artiste.description }}</td>
+                <td>
+                    <a href="{{ path('artistes_show', {'id': artiste.id}) }}">Voir</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('artistes_edit', {'id': artiste.id}) }}">Modifier</a> {# Formulaire de modification #}
+                    {% endif %}  
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Aucunes données n'ont été trouvés</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('artistes_new') }}">Créer un nouvel artiste</a> {# Formulaire de création #}
+    {% endif %} 
+{% endblock %}

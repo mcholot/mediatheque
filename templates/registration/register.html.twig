@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row align-items-center mb-5">
+            <div class="col-8 mx-auto">
+                <div class="card shadow border">
+                    <div class="card-body d-flex flex-column align-items-center">
+                        <h1>Inscription</h1>
+                            <center>{{ form_start(registrationForm) }}
+                                {{ form_row(registrationForm.email) }}
+                                {{ form_row(registrationForm.plainPassword, {
+                                    label: 'Mot de passe'
+                                }) }}
+                                {{ form_row(registrationForm.agreeTerms, {
+                                    label: 'Accepter les conditions'
+                                }) }}
+                                <button class="btn btn-lg btn-primary" type="submit" class="btn">S'inscrire</button>
+                            {{ form_end(registrationForm) }}</center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

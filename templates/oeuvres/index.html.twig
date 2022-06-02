@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Oeuvres{% endblock %}
+
+{% block body %}
+    <h1>Oeuvres</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+            {{ form_start(form) }}
+                <th>Nom</th>
+                <th>Image</th>
+                <th>Prix</th>
+                <th>Description</th>
+                <th>
+                    {{ knp_pagination_sortable(oeuvres,'','')}}
+                    {{ form_widget(form.artiste, { 'attr': {'class':'form-control, width-20' }}) }}
+                    <button class="btn btn-primary">{{ button_label|default('Rechercher') }}</button>
+                    <a href="{{ path('oeuvres_index') }}">Réinitialiser</a> 
+                </th>
+                <th>Disponibilité</th>
+                <th></th>
+            {{ form_end(form) }}
+            </tr>
+        </thead>
+        <tbody>
+        
+        {% for oeuvre in oeuvres %}
+            
+            <tr>
+                <td>{{ oeuvre.nom }}</td>
+
+                <td> <img class="image oeuvre" src="{{asset('images/oeuvres/'~oeuvre.image)}}" width ="300" alt="image"></td>
+                
+                <td>{{ oeuvre.prix }}</td>
+                <td>{{ oeuvre.description }}</td>
+                <td>{{ oeuvre.artiste.nom }}</td>
+                 {% if app.user %}
+                        {% if oeuvre.getIdUser()==app.user.id %}
+                            <td><a href="{{ path('oeuvres_annuler_reservation', {'id': oeuvre.id}) }}">Annuler la réservation</a> </td>
+                        {% else %}
+                            {% if oeuvre.getIdUser()==0 %}
+                            <td>
+                                <a href="{{ path('oeuvres_reserver', {'id': oeuvre.id}) }}">Réserver</a>
+                            </td>
+                            {% else %}
+                                <td>Reservé</td>
+                            {% endif %} 
+                        {% endif %} 
+                {% else %}
+                        {% if oeuvre.getIdUser()==0 %}
+                            <td>Libre</td>
+                        {% else %}
+                            <td>Reservé</td>
+                        {% endif %} 
+                {% endif %} 
+
+
+                <td>
+                    <a href="{{ path('oeuvres_show', {'id': oeuvre.id}) }}">Voir</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                                <a href="{{ path('oeuvres_edit', {'id': oeuvre.id}) }}">Modifier</a> {# Formulaire de modification #}
+                    {% endif %}  
+                </td>
+            </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7">Aucunes données n'ont été trouvés</td>
+                </tr>
+        {% endfor %} 
+
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('oeuvres_new') }}">Créer une nouvelle oeuvre</a> {# Formulaire de création #}
+    {% endif %}  
+{% endblock %}

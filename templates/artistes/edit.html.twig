@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification de l'artiste{% endblock %}
+
+{% block body %}
+    <h1>Modification de l'artiste</h1>
+
+    {{ include('artistes/_form.html.twig', {'button_label': 'Confimer'}) }}
+
+    {{ include('artistes/_delete_form.html.twig') }}
+
+    <a href="{{ path('artistes_index') }}">Annuler</a>
+{% endblock %}

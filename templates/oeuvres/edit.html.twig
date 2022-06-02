@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification de l'oeuvre{% endblock %}
+
+{% block body %}
+    <h1>Modification de l'oeuvre</h1>
+
+    {{ include('oeuvres/_form.html.twig', {'button_label': 'Confirmer'}) }}
+
+    {{ include('oeuvres/_delete_form.html.twig') }}
+
+    <a href="{{ path('oeuvres_index') }}">Annuler</a>
+
+{% endblock %}

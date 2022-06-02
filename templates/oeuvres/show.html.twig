@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Oeuvres{% endblock %}
+
+{% block body %}
+    <h1>Oeuvres</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Nom</th>
+                <td>{{ oeuvre.nom }}</td>
+            </tr>
+            <tr>
+                <th>Image</th>
+                <td><img class="image oeuvre" src="{{asset('images/oeuvres/'~oeuvre.image)}}" height="100" alt="image"></td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ oeuvre.prix }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ oeuvre.description }}</td>
+            </tr>
+            <tr>
+                <th>Artiste</th>
+                <td>{{ oeuvre.artiste.nom }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('oeuvres_index') }}">Retour</a>
+    {% endif %}  
+
+    {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('oeuvres_edit', {'id': oeuvre.id}) }}">Modifier</a>
+    {% endif %}  
+    
+    {% if is_granted('ROLE_ADMIN') %}
+                {{ include('oeuvres/_delete_form.html.twig') }}
+    {% endif %}  
+{% endblock %}
